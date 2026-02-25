@@ -1,17 +1,12 @@
 ### Формула X(t)
-x(t) = cos(2n + n^2)
+![x](./data/function.png)
 
 ### Постоянные t, T_i
-t = 2.4
-
-T_1 = 1.3
-
-T_2 = 1.4
+![t](./data/ts.png)
 
 ### Пределы lim_i
-lim_1 = {2.4 - 4.3}
-
-lim_2 = {2.5 - 4.6}
+![lim](./data/lims.png)
 
 ### Постоянная j
-j = 0.62
+![j](./data/j.png)
+

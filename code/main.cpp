@@ -203,8 +203,8 @@ int main() {
     auto ps1 = new FourierHandler(handler_data_1);
     ps1->calculate(calculatable_data);
 
-    // auto ps2 = new FourierHandler(handler_data_2);
-    // ps2->calculate(calculatable_data);
+    auto ps2 = new FourierHandler(handler_data_2);
+    ps2->calculate(calculatable_data);
 
     return 0;
 };

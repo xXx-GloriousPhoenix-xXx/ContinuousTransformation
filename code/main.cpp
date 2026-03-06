@@ -40,7 +40,6 @@ class FourierHandler {
             cout << "=== === x(t) === ===" << endl;
             vector<double> x_arr(n_count);
             for (auto i = 0; i < n_count; i++) {
-                // (2n + 3) / sin(n + 2)
                 const auto n = n_min + i;
                 x_arr[i] = func(n);
                 cout << "x(t)" << i + 1 << " = " << x_arr[i] << endl;

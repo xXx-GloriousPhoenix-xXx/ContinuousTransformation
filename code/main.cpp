@@ -27,6 +27,11 @@ class FourierHandler {
             const auto n_max = calculatable_data.n_max;
             const auto func = calculatable_data.func;
 
+            cout << "=== === Run Data === ===" << endl;
+            cout << "T = " << T << endl;
+            cout << "lim = {" << lim_start << " ... " << lim_end << "}" << endl;
+            cout << "=== === ======== === ===" << endl << endl;
+
             const auto n_count = n_max - n_min + 1;
             const auto lim_diff = lim_end - lim_start;
 
@@ -35,7 +40,7 @@ class FourierHandler {
             cout << "=== === w === ===" << endl;
             cout << "w = " << "(2 * n) / " << T << " = " << w << endl;
             cout << "w0 = " << "n / (2 * " << T << ") = " << w0 << endl;
-            cout << "=== === = === ===" << endl;
+            cout << "=== === = === ===" << endl << endl;
 
             cout << "=== === x(t) === ===" << endl;
             vector<double> x_arr(n_count);
@@ -148,20 +153,19 @@ class FourierHandler {
             const auto jwe2 = pow(j * w, 2) * exp(-pow(w, 2) / 2);
             const auto ew2ew3 = exp(-pow(w, 2) / 2) - exp(-pow(w, 2) / 3);
             const auto weww02 = w * exp(-pow(w - w0, 2) / 2);
+            const auto wxabweww02 = wxab_factor * weww02;
 
             cout << "X1 * sqrt(2) * n = " << X_arr[0] << " * " << M_SQRT2 << " * " << M_PI << " = " << wxab_factor << endl;
             cout << "(" << j << " * " << w << ")^2 * e^(-" << w << "^2 / 2) = " << jwe2 << endl;
             cout << "e^(-" << w << "^2 / 2) - e^(-" << w << "^2 / 3) = " << ew2ew3 << endl;
-            cout << "w * e^(-(" << w << " - " << w0 << ")^2 / 2) = " << weww02 << endl << endl;
+            cout << "w * e^(-(" << w << " - " << w0 << ")^2 / 2) = " << weww02 << endl;
+            cout << wxabweww02 << " * " << weww02 << " = " << wxabweww02 << endl << endl;
 
             const auto wxab1 = wxab_factor * jwe2 * lim_diff;
             cout << "Wx(a,b)1 = int " << wxab_factor << " * " << jwe2 << " dt = " << wxab1 << endl; 
 
             const auto wxab2 = wxab_factor * ew2ew3 * lim_diff;
-            cout << "Wx(a,b)1 = int " << wxab_factor << " * " << ew2ew3 << " dt = " << wxab2 << endl; 
-
-            const auto wxabweww02 = wxab_factor * weww02;
-            cout << wxabweww02 << " * " << weww02 << " = " << wxabweww02 << endl;
+            cout << "Wx(a,b)2 = int " << wxab_factor << " * " << ew2ew3 << " dt = " << wxab2 << endl; 
 
             vector<double> wxab(X_count);
             for (auto i = 0; i < X_count; i++) {
@@ -196,14 +200,19 @@ int main() {
     const HandlerData handler_data_1 = { 3.8, 2.1, 4.3 };
     const HandlerData handler_data_2 = { 4.1, 1.7, 5.6 };
     const CalculatableData calculatable_data = { 2.4, -0.62, 6, 8, [](int n) -> double {
-        return (2. * n + 3) / sin(n + 2.);
+        // return (2. * n + 3) / sin(n + 2.);
+        return cos(2 * n + pow(n, 2));
     }};
 
+    cout << "--- --- --- --- --- --- --- --- --- Run 1 --- --- --- --- --- --- --- --- ---" << endl;
     auto ps1 = new FourierHandler(handler_data_1);
     ps1->calculate(calculatable_data);
+    cout << "--- --- --- --- --- --- --- --- --- ----- --- --- --- --- --- --- --- --- ---" << endl;
 
+    cout << "--- --- --- --- --- --- --- --- --- Run 2 --- --- --- --- --- --- --- --- ---" << endl;
     auto ps2 = new FourierHandler(handler_data_2);
     ps2->calculate(calculatable_data);
+    cout << "--- --- --- --- --- --- --- --- --- ----- --- --- --- --- --- --- --- --- ---" << endl;
 
     return 0;
 };

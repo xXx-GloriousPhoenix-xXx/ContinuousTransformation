@@ -177,20 +177,24 @@ class FourierHandler {
             cout << "=== === === === === === X(t,a,b) === === === === === ===" << endl;
             const auto s2pjw2ew2 = sqrt(2) * M_PI * pow(j * w, 2) * exp(-pow(w, 2) / 2);
             const auto s2pjw2ew2Cw1 = s2pjw2ew2 / Cψ_1;
+            const auto s2pjw2ew2Cw2 = s2pjw2ew2 / Cψ_2;
+            const auto s2pjw2ew2Cw3 = s2pjw2ew2 / Cψ_3;
 
             cout << "sqrt(2) * n * (" << j << " * " << w << ")^2 * e^(-" << w << "^2 / 2) = " << s2pjw2ew2 << endl;
-            cout << s2pjw2ew2 << " / " << Cψ_1 << " = " << s2pjw2ew2Cw1 << endl << endl;
+            cout << s2pjw2ew2 << " / " << Cψ_1 << " = " << s2pjw2ew2Cw1 << endl;
+            cout << s2pjw2ew2 << " / " << Cψ_2 << " = " << s2pjw2ew2Cw2 << endl;
+            cout << s2pjw2ew2 << " / " << Cψ_3 << " = " << s2pjw2ew2Cw3 << endl << endl;
 
             const auto Xtab1 = s2pjw2ew2Cw1 * wxab1 * pow(lim_diff, 2) / 2;
             cout << "X(t,a,b)1 = int int " << s2pjw2ew2Cw1 << " * " << wxab1 << " dadb = " << Xtab1 << endl;
 
-            const auto Xtab2 = s2pjw2ew2Cw1 * wxab2 * pow(lim_diff, 2) / 2;
-            cout << "X(t,a,b)2 = int int " << s2pjw2ew2Cw1 << " * " << wxab2 << " dadb = " << Xtab1 << endl;
+            const auto Xtab2 = s2pjw2ew2Cw2 * wxab2 * pow(lim_diff, 2) / 2;
+            cout << "X(t,a,b)2 = int int " << s2pjw2ew2Cw2 << " * " << wxab2 << " dadb = " << Xtab2 << endl;
 
             vector<double> Xtab(X_count);
             for (auto i = 0; i < X_count; i++) {
-                Xtab[i] = s2pjw2ew2Cw1 * wxab[i] * pow(lim_diff, 2) / 2;
-                cout << "X" << i + 1 << "(t,a,b) = int int " << s2pjw2ew2Cw1 << " * " << wxab2 << " dadb = " << Xtab[i] << endl;
+                Xtab[i] = s2pjw2ew2Cw3 * wxab[i] * pow(lim_diff, 2) / 2;
+                cout << "X" << i + 1 << "(t,a,b) = int int " << s2pjw2ew2Cw3 << " * " << wxab[i] << " dadb = " << Xtab[i] << endl;
             }
             cout << "=== === === === === === ======== === === === === === ===" << endl;
         }

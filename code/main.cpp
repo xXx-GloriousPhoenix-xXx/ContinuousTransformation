@@ -134,17 +134,62 @@ class FourierHandler {
             const auto t2 = pow(t, 2);
             const auto jwt = j * w * t;
 
-            const auto Cψ_1 = lim_diff * (pow(1 - t, 2) * pow(M_E, -t2 / 2)) / w;
+            const auto Cψ_1 = lim_diff * (pow(1 - t, 2) * exp(-t2 / 2)) / w;
             cout << "Cw_1 = int [(1 - " << t << ")^2 * e^(-" << t << "^2 / 2)] / " << w << " dw = " << Cψ_1 << endl;
 
-            const auto Cψ_2 = lim_diff * (pow(M_E, -t2 / 2.) - pow(M_E, -t2 / 8) / 2) / w;
+            const auto Cψ_2 = lim_diff * (exp(-t2 / 2.) - exp(-t2 / 8) / 2) / w;
             cout << "Cw_2 = int [e^(" << -t << "^2 / 2) - 0.5 * e^(" << -t << "^2 / 8)] / " << w << " dw = " << Cψ_2 << endl;
 
-            const auto Cψ_3 = lim_diff * (pow(M_E, jwt) - pow(M_E, -t2 / 2)) / w;
+            const auto Cψ_3 = lim_diff * (exp(jwt) - exp(-t2 / 2)) / w;
             cout << "Cw_3 = int [e^" << jwt << " - e^(" << -t << "^2 / 8)] / " << w << " dw = " << Cψ_3 << endl;
             cout << "=== === === === === === === === === == === === === === === === === === ===\n" << endl;
 
-            
+            cout << "=== === === === === === Wx(a,b) === === === === === ===" << endl;
+            const auto wxab_factor = X_arr[0] * M_SQRT2 * M_PI;
+            const auto jwe2 = pow(j * w, 2) * exp(-pow(w, 2) / 2);
+            const auto ew2ew3 = exp(-pow(w, 2) / 2) - exp(-pow(w, 2) / 3);
+            const auto weww02 = w * exp(-pow(w - w0, 2) / 2);
+
+            cout << "X1 * sqrt(2) * n = " << X_arr[0] << " * " << M_SQRT2 << " * " << M_PI << " = " << wxab_factor << endl;
+            cout << "(" << j << " * " << w << ")^2 * e^(-" << w << "^2 / 2) = " << jwe2 << endl;
+            cout << "e^(-" << w << "^2 / 2) - e^(-" << w << "^2 / 3) = " << ew2ew3 << endl;
+            cout << "w * e^(-(" << w << " - " << w0 << ")^2 / 2) = " << weww02 << endl << endl;
+
+            const auto wxab1 = wxab_factor * jwe2 * lim_diff;
+            cout << "Wx(a,b)1 = int " << wxab_factor << " * " << jwe2 << " dt = " << wxab1 << endl; 
+
+            const auto wxab2 = wxab_factor * ew2ew3 * lim_diff;
+            cout << "Wx(a,b)1 = int " << wxab_factor << " * " << ew2ew3 << " dt = " << wxab2 << endl; 
+
+            const auto wxabweww02 = wxab_factor * weww02;
+            cout << wxabweww02 << " * " << weww02 << " = " << wxabweww02 << endl;
+
+            vector<double> wxab(X_count);
+            for (auto i = 0; i < X_count; i++) {
+                wxab[i] = wxab_factor * G_arr[i] * weww02 * lim_diff;
+                cout << "Wx" << i + 1 << "(a,b) = int " << wxabweww02 << " * " << G_arr[i] << " dt = " << wxab[i] << endl;
+            }
+            cout << "=== === === === === === ======= === === === === === ===" << endl << endl;
+
+            cout << "=== === === === === === X(t,a,b) === === === === === ===" << endl;
+            const auto s2pjw2ew2 = sqrt(2) * M_PI * pow(j * w, 2) * exp(-pow(w, 2) / 2);
+            const auto s2pjw2ew2Cw1 = s2pjw2ew2 / Cψ_1;
+
+            cout << "sqrt(2) * n * (" << j << " * " << w << ")^2 * e^(-" << w << "^2 / 2) = " << s2pjw2ew2 << endl;
+            cout << s2pjw2ew2 << " / " << Cψ_1 << " = " << s2pjw2ew2Cw1 << endl << endl;
+
+            const auto Xtab1 = s2pjw2ew2Cw1 * wxab1 * pow(lim_diff, 2) / 2;
+            cout << "X(t,a,b)1 = int int " << s2pjw2ew2Cw1 << " * " << wxab1 << " dadb = " << Xtab1 << endl;
+
+            const auto Xtab2 = s2pjw2ew2Cw1 * wxab2 * pow(lim_diff, 2) / 2;
+            cout << "X(t,a,b)2 = int int " << s2pjw2ew2Cw1 << " * " << wxab2 << " dadb = " << Xtab1 << endl;
+
+            vector<double> Xtab(X_count);
+            for (auto i = 0; i < X_count; i++) {
+                Xtab[i] = s2pjw2ew2Cw1 * wxab[i] * pow(lim_diff, 2) / 2;
+                cout << "X" << i + 1 << "(t,a,b) = int int " << s2pjw2ew2Cw1 << " * " << wxab2 << " dadb = " << Xtab[i] << endl;
+            }
+            cout << "=== === === === === === ======== === === === === === ===" << endl;
         }
 };
 
